@@ -3,20 +3,31 @@ import axios from "axios";
 import { useState,useEffect } from "react";
 
 function App() {
-  let [textSearch,setTextSearch] = useState()
+  let [textSearch,setTextSearch] = useState("")
   let [touristkData,setTouristData] = useState([])
 
+  useEffect(() => {
+    getData(textSearch)
+    console.log(touristkData)
+  },[])
+  let getData = async(text) =>{
+    try {
+    let result = await axios.get(`http://localhost:4001/trips?keywords=${text}`)
+     setTouristData(result.data.data)
+    }catch(error){
+      console.log(error)
+      console.log("error")
+    }
+  }
 
   useEffect(() => {
     getBookData(textSearch)
-    
     console.log(touristkData)
   },[textSearch])
 
  let getBookData = async(text) => {
     try {
-      let result = []
-       result = await axios.get(`http://localhost:4001/trips?keywords=${text}`)
+      let result = await axios.get(`http://localhost:4001/trips?keywords=${text}`)
        setTouristData(result.data.data)
       }catch(error){
         console.log(error)
@@ -28,7 +39,7 @@ function App() {
     <div className="App">
       <h1>เที่ยวไหนดี</h1>
       <div className="search-book">
-        <input type="text" placeholder="ค้นหาที่เที่ยว" onChange={(e) => setTextSearch(e.target.value)} />
+        <input type="search" placeholder="ค้นหาที่เที่ยว" onChange={(e) => setTextSearch(e.target.value)} />
         <h5>หาที่เที่ยวแล้วไปกัน...</h5>
         <hr />
       </div>
@@ -42,7 +53,7 @@ function App() {
               <div className="tourist-data">
                 <h2>{item.title}</h2>
                 <p>{item.description}</p>
-                <a href="">อ่านต่อ</a>
+                <a href={item.url} target="_blank">อ่านต่อ</a>
                 <div className="tourist-tag">
                   หมวด 
                   {(item.tags).map((items,index) => {
@@ -56,7 +67,7 @@ function App() {
                     (item.photos).map((item,index) => {
                       if(index > 0 && index < 4){
                         return (
-                      <a href="">
+                      <a href={item} target="_blank">
                         <img src={item} alt="#" />
                       </a>
                       )
