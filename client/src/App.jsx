@@ -1,6 +1,9 @@
 import "./App.css";
 import axios from "axios";
 import { useState,useEffect } from "react";
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+</style>
 
 function App() {
   let [textSearch,setTextSearch] = useState("")
@@ -36,7 +39,7 @@ function App() {
     }
 
   return (
-    <div className="App">
+    <div className="App" >
       <h1>เที่ยวไหนดี</h1>
       <div className="search-book">
         <input type="search" placeholder="ค้นหาที่เที่ยว" onChange={(e) => setTextSearch(e.target.value)} />
